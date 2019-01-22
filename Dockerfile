@@ -44,13 +44,13 @@ RUN cd "node-v$NODE_VERSION" \
 
 RUN upx node-v$NODE_VERSION/out/Release/node
 
-FROM scratch
+FROM alpine:3.8
 
 ARG version=0.0.0
 
-COPY --from=builder node-v$version/out/Release/node /
+COPY --from=builder node-v$version/out/Release/node /usr/local/bin/
 COPY --from=builder /etc/passwd /etc/passwd
 
 USER node
 
-ENTRYPOINT ["./node"]
+ENTRYPOINT [ "/usr/local/bin/node" ]
